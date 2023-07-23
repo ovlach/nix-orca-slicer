@@ -66,6 +66,7 @@ stdenv.mkDerivation rec {
     # https://github.com/wxWidgets/wxWidgets/issues/17942
     ./0001-segv-patches.patch
     ./0002-cmake-fix.patch
+    ./0003-fix-segv-when-init.patch
   ]; 
 
   dontStrip = true;
