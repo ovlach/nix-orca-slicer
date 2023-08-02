@@ -1,0 +1,13 @@
+diff -ruN ./CMakeLists.txt ../../source/CMakeLists.txt
+--- ./CMakeLists.txt	1970-01-01 01:00:01.000000000 +0100
++++ ../../source/CMakeLists.txt	2023-07-30 00:10:20.159656924 +0200
+@@ -502,6 +502,9 @@
+ 
+ # Find the Cereal serialization library
+ find_package(cereal REQUIRED)
++if (NOT TARGET cereal::cereal)
++    add_library(cereal::cereal ALIAS cereal)
++endif ()
+ 
+ # l10n
+ set(L10N_DIR "${SLIC3R_RESOURCES_DIR}/i18n")
