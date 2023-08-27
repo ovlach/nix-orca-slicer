@@ -53,13 +53,13 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "orca-slicer";
-  version = "1.6.3";
+  version = "1.6.6";
 
   src = fetchFromGitHub {
     owner = "SoftFever";
     repo = "OrcaSlicer";
     rev = "v${version}";
-    hash = "sha256-gxTkpzKWpt+Id8QeLWiZWTAYCP6sW8RYlfy1HjdaGdI=";
+    hash = "sha256-1VjNPa649FKKCGjB96VUmCSmpXIcz/vTbnbvHu0J/sA=";
   };
 
   patches = [
@@ -68,8 +68,6 @@ stdenv.mkDerivation rec {
     ./0002-cmake-fix.patch
     ./0003-fix-segv-when-init.patch
     ./0004-fix-ambiguous-call.patch
-    ./0005-fix-cereal-lib.patch
-    ./0006-fix-cereal-lib.patch
   ]; 
 
   dontStrip = true;

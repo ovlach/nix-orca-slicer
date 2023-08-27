@@ -1,100 +1,12 @@
-diff -ruN ./src/slic3r/GUI/Auxiliary.cpp ../../source/src/slic3r/GUI/Auxiliary.cpp
---- ./src/slic3r/GUI/Auxiliary.cpp	1970-01-01 01:00:01.000000000 +0100
-+++ ../../source/src/slic3r/GUI/Auxiliary.cpp	2023-07-25 20:00:59.390226775 +0200
-@@ -349,7 +349,7 @@
- 
-     
-     wxString new_fullname_path = dir.wstring() + "/" + new_fullname;
--    fs::path new_dir_path(new_fullname_path.c_str());
-+    fs::path new_dir_path(new_fullname_path.ToStdString());
-     
- 
-     if (fs::exists(new_dir_path)) existing = true;
-@@ -465,7 +465,7 @@
-     auto full_root_path_str = encode_path(full_root_path.string().c_str());
-     auto dir       = wxString::Format("%s/.thumbnails", full_root_path_str);
- 
--    fs::path dir_path(dir.c_str());
-+    fs::path dir_path(dir.ToStdString());
- 
-     if (!fs::exists(dir_path)) {
-         fs::create_directory(dir_path); 
-@@ -509,7 +509,7 @@
-         auto full_root_path     = full_path.branch_path();
-         auto full_root_path_str = encode_path(full_root_path.string().c_str());
-         auto dir                = wxString::Format("%s/.thumbnails", full_root_path_str);
--        fs::path dir_path(dir.c_str());
-+        fs::path dir_path(dir.ToStdString());
- 
-         auto cover_img_path = dir_path.string() + "/thumbnail_3mf.png";
-         auto small_img_path = dir_path.string() + "/thumbnail_small.png";
-@@ -774,7 +774,7 @@
-             auto list = iter->second;
-             for (auto i = 0; i < list.size(); i++) {
-                 if (list[i].wstring() == old_name) {
--                    list[i] = fs::path(new_name.c_str());
-+                    list[i] = fs::path(new_name.ToStdString());
-                     break;
-                 }
-             }
-@@ -952,7 +952,7 @@
- 
-             // add in file list
-             iter = m_paths_list.find(file_model.ToStdString());
--            auto file_fs_path = fs::path(dir_path.c_str());
-+            auto file_fs_path = fs::path(dir_path.ToStdString());
-             if (iter != m_paths_list.end()) {
-                 m_paths_list[file_model.ToStdString()].push_back(file_fs_path);
-             } else {
-@@ -1032,7 +1032,7 @@
-                 auto idx = file_path.find(folder.ToStdString());
-                 if (idx != std::string::npos) {
-                     auto iter = m_paths_list.find(folder.ToStdString());
--                    auto     file_path_str = fs::path(file_path.c_str());
-+                    auto     file_path_str = fs::path(file_path.ToStdString());
- 
-                     if (iter != m_paths_list.end()) {
-                         m_paths_list[folder.ToStdString()].push_back(file_path_str);
-diff -ruN ./src/slic3r/GUI/AuxiliaryDataViewModel.hpp ../../source/src/slic3r/GUI/AuxiliaryDataViewModel.hpp
---- ./src/slic3r/GUI/AuxiliaryDataViewModel.hpp	1970-01-01 01:00:01.000000000 +0100
-+++ ../../source/src/slic3r/GUI/AuxiliaryDataViewModel.hpp	2023-07-25 19:57:37.097047985 +0200
-@@ -32,7 +32,7 @@
-         m_container = is_container;
-         m_root = false;
-         path = abs_path;
--        fs::path path_obj(path.c_str());
-+        boost::filesystem::path path_obj(path.ToStdString());
-         name = path_obj.filename().generic_wstring();
- 
-         parent->Append(this);
 diff -ruN ./src/slic3r/GUI/SelectMachine.cpp ../../source/src/slic3r/GUI/SelectMachine.cpp
 --- ./src/slic3r/GUI/SelectMachine.cpp	1970-01-01 01:00:01.000000000 +0100
-+++ ../../source/src/slic3r/GUI/SelectMachine.cpp	2023-07-25 20:24:46.057649215 +0200
++++ ../../source/src/slic3r/GUI/SelectMachine.cpp	2023-08-27 15:57:18.190162730 +0200
 @@ -3069,7 +3069,7 @@
          filename = m_plater->get_export_gcode_filename("", true);
      }
  
 -    fs::path filename_path(filename.c_str());
-+    fs::path filename_path(filename.ToStdString());
++    fs::path filename_path(filename.ToStdWstring());
      m_current_project_name = wxString::FromUTF8(filename_path.filename().string());
      m_rename_text->SetLabelText(m_current_project_name);
      m_rename_normal_panel->Layout();
-diff -ruN ./src/slic3r/GUI/SendToPrinter.cpp ../../source/src/slic3r/GUI/SendToPrinter.cpp
---- ./src/slic3r/GUI/SendToPrinter.cpp	1970-01-01 01:00:01.000000000 +0100
-+++ ../../source/src/slic3r/GUI/SendToPrinter.cpp	2023-07-25 20:25:36.296947005 +0200
-@@ -1123,7 +1123,7 @@
-         }
-     }
- 
--    fs::path filename_path(filename.c_str());
-+    fs::path filename_path(filename.ToStdString());
-     m_current_project_name = wxString::FromUTF8(filename_path.filename().string());
-     m_rename_text->SetLabelText(m_current_project_name);
-     m_rename_normal_panel->Layout();
-@@ -1238,4 +1238,4 @@
- }
- 
- }
--}
-\ No newline at end of file
-+}
