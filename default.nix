@@ -41,6 +41,9 @@
 , oWxGTK31
 , xorg
 , fetchpatch
+, openexr
+, jemalloc
+, c-blosc
 , withSystemd ? stdenv.isLinux
 }:
 let
@@ -49,6 +52,9 @@ let
       # Disable noisy debug dialogs
       "--enable-debug=no"
     ];
+  });
+  openvdb_tbb_2021_8 = openvdb.overrideAttrs (old: rec {
+    buildInputs = [ openexr boost tbb_2021_8 jemalloc c-blosc ilmbase ];
   });
 in
 stdenv.mkDerivation rec {
@@ -105,7 +111,7 @@ stdenv.mkDerivation rec {
     mpfr
     nlopt
     opencascade-occt
-    openvdb
+    openvdb_tbb_2021_8
     pcre
     tbb_2021_8
     webkitgtk
