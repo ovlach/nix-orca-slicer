@@ -1,15 +1,15 @@
-diff -ruN ./src/CMakeLists.txt ../../source/src/CMakeLists.txt
---- ./src/CMakeLists.txt	1970-01-01 01:00:01.000000000 +0100
-+++ ../../source/src/CMakeLists.txt	2023-07-20 00:51:54.221518488 +0200
-@@ -178,6 +178,11 @@
+--- a/src/src/CMakeLists.txt	2023-10-24 17:23:31.456257170 +0200
++++ b/src/CMakeLists.txt	2023-10-24 17:26:35.840221489 +0200
+@@ -178,6 +178,12 @@
+     target_link_libraries(OrcaSlicer_app_gui PRIVATE boost_headeronly)
  endif ()
  
- # Link the resources dir to where Slic3r GUI expects it
-+ 
++
 +# We link against webkit2gtk symbols in src/slic3r/GUI/Widgets/WebView.cpp
 +if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
 +    target_link_libraries(libslic3r_gui "-lwebkit2gtk-4.0")
 +endif ()
++
+ # Link the resources dir to where Slic3r GUI expects it
  set(output_dlls_Release "")
  set(output_dlls_Debug "")
- set(output_dlls_RelWithDebInfo "")

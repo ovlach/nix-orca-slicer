@@ -36,7 +36,7 @@
 , pcre
 , qhull
 , systemd
-, tbb
+, tbb_2021_8
 , webkitgtk
 , oWxGTK31
 , xorg
@@ -53,22 +53,22 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "orca-slicer";
-  version = "1.6.6";
+  version = "1.7.0";
 
   src = fetchFromGitHub {
     owner = "SoftFever";
     repo = "OrcaSlicer";
     rev = "v${version}";
-    hash = "sha256-1VjNPa649FKKCGjB96VUmCSmpXIcz/vTbnbvHu0J/sA=";
+    hash = "sha256-qwlLHtTVIRW1g5WRQ5NhDh+O8Bypra/voIu39yU2tbw=";
   };
 
   patches = [
     # https://github.com/wxWidgets/wxWidgets/issues/17942
     ./0001-segv-patches.patch
     ./0002-cmake-fix.patch
-    ./0003-fix-segv-when-init.patch
+    ./0003-fix-ambiguous-call.patch
     ./0004-fix-ambiguous-call.patch
-  ]; 
+  ];
 
   dontStrip = true;
   enableDebugging = true;
@@ -107,7 +107,7 @@ stdenv.mkDerivation rec {
     opencascade-occt
     openvdb
     pcre
-    tbb
+    tbb_2021_8
     webkitgtk
     wxGTK31'
     xorg.libX11
@@ -146,6 +146,10 @@ stdenv.mkDerivation rec {
     "-DSLIC3R_FHS=1"
     "-DSLIC3R_GTK=3"
     "-DwxWidgets_PREFIX=${oWxGTK31}"
+    "-DTBB_ROOT_DIR=${tbb_2021_8}"
+
+    # Debug - delete me!
+    "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
 
     # BambuStudio-specific
     "-DBBL_RELEASE_TO_PUBLIC=1"
