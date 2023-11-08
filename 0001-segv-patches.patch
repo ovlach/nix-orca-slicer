@@ -1,14 +1,13 @@
-diff -ruN ./src/slic3r/GUI/Field.cpp ../../source/src/slic3r/GUI/Field.cpp
---- ./src/slic3r/GUI/Field.cpp	1970-01-01 01:00:01.000000000 +0100
-+++ ../../source/src/slic3r/GUI/Field.cpp	2023-07-20 01:19:02.755757640 +0200
-@@ -1539,8 +1539,9 @@
+diff -ruN ./src/src/slic3r/GUI/Field.cpp ./source/src/slic3r/GUI/Field.cpp
+--- b/src/src/slic3r/GUI/Field.cpp	2023-10-24 17:23:31.535256565 +0200
++++ a/src/slic3r/GUI/Field.cpp	2023-10-24 17:24:37.187805397 +0200
+@@ -1540,8 +1540,8 @@
  
      wxButton* btn = dynamic_cast<wxButton*>(field->GetPickerCtrl());
      wxImage image(btn->GetBitmap().GetSize());
 -    image.InitAlpha();
 -    memset(image.GetAlpha(), 0, image.GetWidth() * image.GetHeight());
-+    // TODO: why initAlpha() raise segv?
-+    /*image.InitAlpha();
++    /*image.InitAlpha(); TODO: SEGV fix-me
 +    memset(image.GetAlpha(), 0, image.GetWidth() * image.GetHeight());*/
      wxBitmap   bmp(std::move(image));
      wxMemoryDC dc(bmp);

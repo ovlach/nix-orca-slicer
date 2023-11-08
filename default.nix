@@ -36,11 +36,14 @@
 , pcre
 , qhull
 , systemd
-, tbb
+, tbb_2021_8
 , webkitgtk
 , oWxGTK31
 , xorg
 , fetchpatch
+, openexr
+, jemalloc
+, c-blosc
 , withSystemd ? stdenv.isLinux
 }:
 let
@@ -49,6 +52,9 @@ let
       # Disable noisy debug dialogs
       "--enable-debug=no"
     ];
+  });
+  openvdb_tbb_2021_8 = openvdb.overrideAttrs (old: rec {
+    buildInputs = [ openexr boost tbb_2021_8 jemalloc c-blosc ilmbase ];
   });
 in
 stdenv.mkDerivation rec {
@@ -66,9 +72,9 @@ stdenv.mkDerivation rec {
     # https://github.com/wxWidgets/wxWidgets/issues/17942
     ./0001-segv-patches.patch
     ./0002-cmake-fix.patch
-    ./0003-fix-segv-when-init.patch
+    ./0003-fix-ambiguous-call.patch
     ./0004-fix-ambiguous-call.patch
-  ]; 
+  ];
 
   dontStrip = true;
   enableDebugging = true;
@@ -105,9 +111,9 @@ stdenv.mkDerivation rec {
     mpfr
     nlopt
     opencascade-occt
-    openvdb
+    openvdb_tbb_2021_8
     pcre
-    tbb
+    tbb_2021_8
     webkitgtk
     wxGTK31'
     xorg.libX11
@@ -146,6 +152,10 @@ stdenv.mkDerivation rec {
     "-DSLIC3R_FHS=1"
     "-DSLIC3R_GTK=3"
     "-DwxWidgets_PREFIX=${oWxGTK31}"
+    "-DTBB_ROOT_DIR=${tbb_2021_8}"
+
+    # Debug - delete me!
+    "-DCMAKE_BUILD_TYPE=RelWithDebInfo"
 
     # BambuStudio-specific
     "-DBBL_RELEASE_TO_PUBLIC=1"

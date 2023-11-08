@@ -1,18 +1,11 @@
---- a/src/src/slic3r/GUI/SendToPrinter.cpp	1970-01-01 01:00:01.000000000 +0100
-+++ b/src/slic3r/GUI/SendToPrinter.cpp	2023-10-24 20:00:13.358045649 +0200
-@@ -1233,7 +1233,7 @@
+--- a/src/slic3r/GUI/SelectMachine.cpp	2023-10-24 17:23:31.544256496 +0200
++++ b/src/slic3r/GUI/SelectMachine.cpp	2023-10-24 17:29:30.165793298 +0200
+@@ -3436,7 +3436,7 @@
          if (filename.empty()) filename = _L("Untitled");
      }
- 
+     
 -    fs::path filename_path(filename.c_str());
 +    fs::path filename_path(filename.ToStdWstring());
      m_current_project_name = wxString::FromUTF8(filename_path.filename().string());
  
      //unsupported character filter
-@@ -1352,4 +1352,4 @@
- }
- 
- }
--}
-\ No newline at end of file
-+}
